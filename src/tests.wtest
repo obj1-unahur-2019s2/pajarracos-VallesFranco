@@ -1,0 +1,45 @@
+import aves.*
+import islas.*
+
+describe "Test de isla y aves" {
+var aguilColo1 = new AguiluchoColorado()
+var albatros1 = new Albatros()
+var paloTorca1 = new PalomaTorcaza()
+var isla1 = new Isla(aves = #{aguilColo1,albatros1,paloTorca1})
+	
+	fixture {
+		albatros1.irAlGym()
+	}
+	test "fuerza de las aves" {
+		assert.equals(580,aguilColo1.fuerza())
+		assert.equals(1100,albatros1.fuerza())
+		assert.equals(700,paloTorca1.fuerza())
+	}
+	test "peso del albatros1" {
+		assert.equals(4500,albatros1.peso())
+	}
+	test "fuerza total de la isla1" {
+		assert.equals(2380,isla1.obtenerFuerzaTotalDe(isla1))
+	}
+	test "aves débiles de la isla1" {
+		assert.equals(#{aguilColo1,paloTorca1},isla1.obtenerAvesDebilesDe(isla1))
+	}
+	test "hubo un terremoto en la isla1" {
+	isla1.huboUnTerremoto()	
+		assert.equals(580,aguilColo1.fuerza())
+		assert.equals(1100,albatros1.fuerza())
+		assert.equals(1400,paloTorca1.fuerza())
+		assert.equals(40,aguilColo1.velocidad())
+		assert.equals(5300,albatros1.peso())
+		assert.equals(500,paloTorca1.ira())
+		assert.equals(#{aguilColo1},isla1.obtenerAvesDebilesDe(isla1))
+	}
+	test "hubo una tormenta en la isla1, después del terremoto" {
+	isla1.huboUnTerremoto()
+	isla1.huboUnaTormenta()
+		assert.equals(80,aguilColo1.velocidad())
+		assert.equals(640,aguilColo1.fuerza())
+		assert.equals(5300,albatros1.peso())
+		assert.equals(500,paloTorca1.ira())	
+	}
+}
